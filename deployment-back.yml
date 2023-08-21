@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: babodesi/mern-backend
+          ports:
+            - containerPort: 4000
+          env:
+            - name: hosturl
+              value: "mongodb://mongodb.my-app.svc.cluster.local:27017/reactdb" # Update this with your actual MongoDB URL
+          readinessProbe:
+            httpGet:
+              path: /students/health
+              port: 4000

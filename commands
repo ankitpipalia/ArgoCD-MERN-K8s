@@ -1,0 +1,14 @@
+#install argocd
+kubectl create namespace argocd
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/core-install.yaml
+
+#change argocd-server svc to nodeport
+kubectl edit svc argocd-server -n argocd
+kubectl get svc -n argocd
+
+#find default password
+kubectl get secret -n argocd
+kubectl edit secret argocd-initial-admin-secret -n argocd
+
+#decrypt password
+echo pass | base64 -d
